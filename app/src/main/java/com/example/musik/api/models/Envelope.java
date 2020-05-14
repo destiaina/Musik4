@@ -1,18 +1,28 @@
 package com.example.musik.api.models;
 
 public class Envelope<T> {
-    public T result;
+    public T results;
+    public Header headers;
 
-    public Envelope(T results) {
-        this.result = result;
+    public Envelope(T results, Header headers) {
+        this.results = results;
+        this.headers = headers;
     }
 
-    public T getResult() {
-        return result;
+    public T getResults() {
+        return results;
     }
 
-    public void setResult(T result) {
-        this.result = result;
+    public void setResults(T results) {
+        this.results = results;
+    }
+
+    public Header getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Header headers) {
+        this.headers = headers;
     }
 }
 
