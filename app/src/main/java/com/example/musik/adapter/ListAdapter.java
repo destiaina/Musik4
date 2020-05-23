@@ -1,6 +1,7 @@
 package com.example.musik.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musik.R;
 import com.example.musik.api.models.Song;
+import com.example.musik.ui.DetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,6 +21,12 @@ import java.util.List;
 
 import com.example.musik.R;
 import com.example.musik.api.models.Song;
+
+import static com.example.musik.ui.DetailActivity.ARTIST_NAME;
+import static com.example.musik.ui.DetailActivity.AUDIO;
+import static com.example.musik.ui.DetailActivity.DOWNLOAD;
+import static com.example.musik.ui.DetailActivity.IMAGE;
+import static com.example.musik.ui.DetailActivity.NAME;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
@@ -49,11 +57,23 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Song item=items.get(position);
+        final Song item=items.get(position);
         Picasso.get().load(item.getImage()).into(holder.fotoImage);
         holder.artistnameText.setText("Artist Name: "+item.getArtist_name());
         holder.nameText.setText("Title Song: "+item.getName());
         holder.releaseText.setText("Release Date: "+item.getReleasedate());
+        holder.detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (context, DetailActivity.class);
+                intent.putExtra(ARTIST_NAME, item.getArtist_name());
+                intent.putExtra(NAME, item.getName());
+                intent.putExtra(IMAGE, item.getImage());
+                intent.putExtra(AUDIO, item.getAudio());
+                intent.putExtra(DOWNLOAD, item.getAudiodownload());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -62,6 +82,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public View detail;
         TextView nameText, artistnameText, releaseText;
         ImageView fotoImage;
         public ViewHolder(@NonNull View itemView) {
@@ -70,8 +92,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             artistnameText = itemView.findViewById(R.id.text_artistname);
             fotoImage =  itemView.findViewById(R.id.image_foto);
             releaseText=itemView.findViewById(R.id.text_release);
+            detail=itemView.findViewById(R.id.detail);
         }
     }
-
 }
 
