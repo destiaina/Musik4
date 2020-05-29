@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.musik.R;
@@ -20,9 +21,10 @@ import java.net.URI;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private Button download, audio;
+    private Button btn, audio;
     TextView artistname, name;
     ImageView imagee;
+    DownloadManager download2;
     String artis, namee, image, urlaudio, urldownload;
     public static final String ARTIST_NAME = "artistname";
     public static final String NAME = "name";
@@ -34,19 +36,19 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        download = findViewById(R.id.dwn);
+        btn = findViewById(R.id.dwn);
         artistname=findViewById(R.id.artist);
         name=findViewById(R.id.title);
         imagee=findViewById(R.id.imageView2);
         audio=findViewById(R.id.audioo);
 
-        Bundle exras=getIntent().getExtras();
-        if(exras!=null){
-            artis=exras.getString(ARTIST_NAME);
-            namee=exras.getString(NAME);
+        Bundle extras=getIntent().getExtras();
+        if(extras!=null){
+            artis=extras.getString(ARTIST_NAME);
+            namee=extras.getString(NAME);
             image=getIntent().getStringExtra(IMAGE);
-            urlaudio=exras.getString(AUDIO);
-            urldownload=exras.getString(DOWNLOAD);
+            urlaudio=extras.getString(AUDIO);
+            urldownload=extras.getString(DOWNLOAD);
 
         }
 
@@ -62,24 +64,18 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-        download.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                openWebPage(urldownload);
+                Toast.makeText(DetailActivity.this, "Musik sedang di download, cek di panel notifikasi", Toast.LENGTH_LONG).show();
+                download2 = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse(urldownload);
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setTitle(namee);
+                Long reference = download2.enqueue(request);
             }
         });
-    }
-
-    public void newDownload(String url) {
-        DownloadManager downloadmanager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri webpage = Uri.parse(url);
-        DownloadManager.Request request  = new DownloadManager.Request(webpage);
-        request.setTitle("My File");
-        request.setDescription("Downloading");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "music.mp3");
-        downloadmanager.enqueue(request);
     }
 
     public void openWebPage(String url) {

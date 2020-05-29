@@ -17,27 +17,25 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.startapp.android.publish.adsCommon.StartAppSDK;
 
 public class MainActivity extends AppCompatActivity {
-   // private InterstitialAd mInterstitialAd;
-    private Button buttonLoad;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        StartAppSDK.init(this, "203904306", true);
-//        setContentView(R.layout.activity_main);
-//        buttonLoad = findViewById(R.id.loaded);
-//
-//        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-//            @Override
-//            public void onInitializationComplete(InitializationStatus initializationStatus) {
-//            }
-//        });
-//
-//        mInterstitialAd = new InterstitialAd(this);
-//        mInterstitialAd.setAdUnitId("ca-app-pub-3714920762932792/7607168023");
-//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        StartAppSDK.init(this, "203904306", true);
+        setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3714920762932792/7607168023");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
        }
 
     public void handleList(View view) {

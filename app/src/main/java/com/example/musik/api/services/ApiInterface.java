@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ApiInterface{
-    @GET("v3.0/albums")
+    @GET("v3.0/tracks")
     Call<Envelope<List<Song>>> getLagu(@Query("client_id") String client_id, @Query("format") String format, @Query("name") String name);
 
 }

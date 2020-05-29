@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +33,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     private Context context;
     public List<Song> items;
+    public static final String ARTIST_NAME="artistname";
+    public static final String NAME="name";
+    public static final String DOWNLOAD="download";
+    public static final String AUDIO="audio";
+    public static final String IMAGE="image";
 
     public ListAdapter(Context context, List<Song> items) {
         this.context = context;
@@ -41,6 +47,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void setLagu(List<Song> item){
         items.addAll(item);
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        int size = items.size();
+        items.clear();
+        notifyItemRangeRemoved(0, size);
     }
 
     public ListAdapter(ArrayList<Song> items) {
@@ -83,8 +95,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public View detail;
-        TextView nameText, artistnameText, releaseText;
+        TextView nameText, artistnameText, releaseText, detail;
         ImageView fotoImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
